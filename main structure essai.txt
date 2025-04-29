@@ -1,35 +1,75 @@
 /src
-├── main/
-│   ├── Main.java                  (SEULEMENT le point d'entrée)
-│   └── Application.java           (Classe principale qui orchestre tout)
-│
-├── modules/
-│   ├── auth/                      (Authentification)
-│   │   ├── AuthService.java       (Interface)
-│   │   └── DatabaseAuthImpl.java  (Implémentation concrète)
-│   │
-│   ├── admin/
-│   │   ├── AdminController.java   (Logique admin)
-│   │   └── AdminMenu.java         (UI admin)
-│   │
-│   ├── user/
-│   │   ├── UserController.java
-│   │   └── UserMenu.java
-│   │
-│   └── rides/                     (Gestion des courses)
-│       ├── RideService.java
-│       └── RideMenu.java
-│
-├── core/                          (Vos classes métiers existantes)
-│   ├── model/                     (Classes du domaine)
-│   │   ├── Utilisateur.java
-│   │   ├── Course.java
-│   │   └── ...
-│   │
-│   └── services/                  (Services métiers)
-│       ├── UserManager.java
-│       └── RideManager.java
-│
-└── utils/                         (Helpers communs)
-    ├── ConsoleUtils.java          (Méthodes pour I/O console)
-    └── DateUtils.java
+├── Main.java                    (Point d'entrée unique)
+├── App.java                     (Cœur de l'application)
+├── menus/                       (Tous les menus)
+│   ├── MenuAdmin.java
+│   ├── MenuUtilisateur.java
+│   └── MenuPrincipal.java
+└── core/                        (Vos classes existantes)
+    ├── Utilisateur.java
+    ├── Course.java
+    └── ... (autres classes métier)
+
+*** Main.java ***
+public class Main {
+    public static void main(String[] args) {
+        App.getInstance().run();
+    }
+}
+
+***App.java (gestion centrale)***
+public class App {
+    private static App instance;
+    private Utilisateur utilisateurConnecte;
+    
+    public static App getInstance() {
+        if (instance == null) {
+            instance = new App();
+        }
+        return instance;
+    }
+    
+    public void run() {
+        new MenuPrincipal().afficher();
+    }
+    
+    // Getters/Setters utiles
+    public Utilisateur getUtilisateurConnecte() {
+        return this.utilisateurConnecte;
+    }
+}
+
+***MENU PRINCIPALE(aka navigation)
+public class MenuPrincipal {
+    public void afficher() {
+        while (true) {
+            System.out.println("\n=== MENU PRINCIPAL ===");
+            System.out.println("1. Se connecter");
+            System.out.println("2. Quitter");
+            
+            int choix = ScannerUtils.lireEntier(1, 2);
+            
+            switch (choix) {
+                case 1 -> connexion();
+                case 2 -> System.exit(0);
+            }
+        }
+    }
+    
+    private void connexion() {
+        // Appelle l'authentification
+        Utilisateur user = AuthService.connecter();
+        
+        if (user != null) {
+            App.getInstance().setUtilisateurConnecte(user);
+            
+            // Redirige vers le bon menu
+            if (user instanceof Admin) {
+                new MenuAdmin().afficher();
+            } else {
+                new MenuUtilisateur().afficher();
+            }
+        }
+    }
+}
+
