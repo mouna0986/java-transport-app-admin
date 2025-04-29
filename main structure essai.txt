@@ -1,0 +1,35 @@
+/src
+├── main/
+│   ├── Main.java                  (SEULEMENT le point d'entrée)
+│   └── Application.java           (Classe principale qui orchestre tout)
+│
+├── modules/
+│   ├── auth/                      (Authentification)
+│   │   ├── AuthService.java       (Interface)
+│   │   └── DatabaseAuthImpl.java  (Implémentation concrète)
+│   │
+│   ├── admin/
+│   │   ├── AdminController.java   (Logique admin)
+│   │   └── AdminMenu.java         (UI admin)
+│   │
+│   ├── user/
+│   │   ├── UserController.java
+│   │   └── UserMenu.java
+│   │
+│   └── rides/                     (Gestion des courses)
+│       ├── RideService.java
+│       └── RideMenu.java
+│
+├── core/                          (Vos classes métiers existantes)
+│   ├── model/                     (Classes du domaine)
+│   │   ├── Utilisateur.java
+│   │   ├── Course.java
+│   │   └── ...
+│   │
+│   └── services/                  (Services métiers)
+│       ├── UserManager.java
+│       └── RideManager.java
+│
+└── utils/                         (Helpers communs)
+    ├── ConsoleUtils.java          (Méthodes pour I/O console)
+    └── DateUtils.java
