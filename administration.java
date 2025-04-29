@@ -17,18 +17,10 @@ public class Administration {
         this.planning = new Planning();
     }
 
-    // Méthode pour ajouter un utilisateur avec vérification d'ID unique
+    // Méthode pour ajouter un utilisateur a
     public void ajouterUtilisateur(Utilisateur utilisateur) {
         if (utilisateur == null) {
             throw new IllegalArgumentException("L'utilisateur ne peut pas être null");
-        }
-        
-        // Vérification que l'ID est unique
-        boolean idExisteDeja = utilisateurs.stream()
-                .anyMatch(u -> u.getID().equals(utilisateur.getID()));
-                
-        if (idExisteDeja) {
-            throw new IllegalStateException("Un utilisateur avec cet ID existe déjà: " + utilisateur.getID());
         }
         
         utilisateurs.add(utilisateur);
@@ -46,11 +38,11 @@ public class Administration {
         }
     }
 
-    // Méthode pour bannir un utilisateur par ID
+    // Méthode pourr bannir un utilisateur par ID
     public void bannirUtilisateur(String id) {
         Utilisateur utilisateur = trouverUtilisateurParID(id);
         if (utilisateur != null) {
-            utilisateur.setReputation(0);
+            utilisateur.setReputation(0); //lol
             utilisateurs.remove(utilisateur);
             System.out.println("Utilisateur ID:" + id + " a été banni pour mauvaise réputation.");
         } else {
