@@ -1,0 +1,49 @@
+public class Main {
+    private static Administration admin;
+    private static Utilisateur utilisateurCourant;
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        initialiserApplication();
+        
+        while (true) {
+            System.out.println("\n=== Application de Covoiturage Universitaire ===");
+            
+            if (utilisateurCourant == null) {
+                afficherMenuNonConnecte();
+            } else if (utilisateurCourant instanceof Administration) {
+                afficherMenuAdmin();
+            } else {
+                afficherMenuUtilisateur();
+            }
+        }
+    }
+
+    private static void initialiserApplication() {
+        // Initialiser les données de l'application
+        admin = new Administration();
+        // Charger les utilisateurs depuis la base de données ou fichier
+    }
+    
+    // ensuite...
+
+//Système d'Auth
+
+    private static void connexion() {
+        System.out.println("\n--- Connexion ---");
+        System.out.print("Matricule: ");
+        String matricule = scanner.nextLine();
+        System.out.print("Mot de passe: ");
+        String mdp = scanner.nextLine(); // En réel, utiliser un champ masqué
+        
+        // Vérification des identifiants
+        utilisateurCourant = admin.authentifier(matricule, mdp);
+        
+        if (utilisateurCourant != null) {
+            System.out.println("Connexion réussie !");
+        } else {
+            System.out.println("Échec de connexion. Matricule ou mot de passe incorrect.");
+        }
+    }
+}
+
